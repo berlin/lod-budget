@@ -1,4 +1,5 @@
 jinja2
 pyyaml
 rdflib
+progressbar2
 jinja-rdf @ git+https://github.com/berlinonline/jinjardf@main
