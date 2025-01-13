@@ -1,3 +1,5 @@
+senfin_org_url = https://raw.githubusercontent.com/berlin/lod-organigram/main/data/static/SenFin.ttl
+
 generate:
 	python bin/generate.py
 
@@ -14,10 +16,16 @@ data/temp/haushalt-be.nt: data/haushalt-be.ttl data/temp
 data/temp/haushalt-be.part.nt: data/temp/haushalt-be.nt
 	head -n 50000 $< > $@
 
-data/temp/all.part.nt: data/temp/void.nt data/temp/haushalt-be.part.nt
+data/temp/senfin.ttl: data/temp
+	curl -o $@ "$(senfin_org_url)"
+
+data/temp/senfin.nt: data/temp/senfin.ttl
+	rdfpipe -i turtle -o ntriples $< > $@
+
+data/temp/all.part.nt: data/temp/void.nt data/temp/senfin.nt data/temp/haushalt-be.part.nt
 	rdfpipe -i ntriples -o ntriples $^ > $@
 
-data/temp/all.nt: data/temp/void.nt data/temp/haushalt-be.nt
+data/temp/all.nt: data/temp/void.nt data/temp/senfin.nt data/temp/haushalt-be.nt
 	rdfpipe -i ntriples -o ntriples $^ > $@
 
 _site:

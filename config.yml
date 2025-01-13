@@ -22,3 +22,5 @@ prefixes:
   xsd: http://www.w3.org/2001/XMLSchema#
 include:
   - assets/
+class_template_mappings:
+  "void:Dataset": "dataset.html.jinja"

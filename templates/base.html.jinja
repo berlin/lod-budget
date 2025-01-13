@@ -1,6 +1,9 @@
 {% import 'helper.html.jinja' as helper with context %}
 {% set asset_path = resource_prefix %}
 {% set asset_path = asset_path | relative_uri %}
+{% set dataset_breadcrumb = "Datensatz" %}
+{% set local_name = node.split('/') | last %}
+{% set title = node | title_any(languages=['de'], default=local_name) %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -39,7 +42,7 @@
               <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                   <a href="{{ resource_prefix | relative_uri }}">
-                    Datensatz
+                    {{ dataset_breadcrumb }}
                   </a>
                 </li>
                 <li class="breadcrumb-item">
@@ -51,44 +54,56 @@
         </div>
       {% endblock breadcrumbs %}
 
-      {% block description %}
-        {% set description_text = node | description_any(languages=['de'])%}
-        {% if description_text %}
-          <div class="row">
-            <div class="col-12">
-              <p>{{ description_text }}</p>
+      {% block content %}
+
+        {% block description %}
+          {% set description_text = node | description_any(languages=['de'])%}
+          {% if description_text %}
+            <div class="row">
+              <div class="col-12">
+                <p>{{ description_text }}</p>
+              </div>
             </div>
-          </div>
-        {% endif %}
-      {% endblock description %}
-    
-      {% block type_row %}
-        {% set types = node | rdf_property(RDF.type) %}
-        {% if types | length > 0 %}
-          <div class="row">
-            <div class="col-lg-6 col-sm-12">
-              <table class="table table-striped align-middle">
-                <tbody>
-                    <tr>
-                      {% if types | length == 1 %}
-                        <td>Typ:</td>
-                      {% else %}
-                        <td>Typen:</td>
-                      {% endif %}
-                      <td>
-                        {% for type in types %}
-                          {{ helper.prefix_link(type) }}
-                          {% if not loop.last %},
-                          {% endif %}
-                        {% endfor %}
-                      </td>
-                    </tr>
-                </tbody>
-              </table>
+          {% endif %}
+        {% endblock description %}
+      
+        {% block info_table %}
+          {% block info_table_header %}
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <table class="table table-striped align-middle">
+                  <tbody>
+          {% endblock info_table_header %}
+          {% block info_table_content %}
+            {% block type_row %}
+              {% set types = node | rdf_property(RDF.type) %}
+              {% if types | length > 0 %}
+                          <tr>
+                            {% if types | length == 1 %}
+                              <td>Typ:</td>
+                            {% else %}
+                              <td>Typen:</td>
+                            {% endif %}
+                            <td>
+                              {% for type in types %}
+                                {{ helper.prefix_link(type) }}
+                                {% if not loop.last %},
+                                {% endif %}
+                              {% endfor %}
+                            </td>
+                          </tr>
+              {% endif %}
+            {% endblock type_row %}
+          {% endblock info_table_content%}
+          {% block info_table_footer %}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
-        {% endif %}
-      {% endblock type_row %}
+          {% endblock info_table_footer%}
+        {% endblock info_table %}
+
+      {% endblock content %}
 
       {% block local_graph %}
         <div class="row local-graph">
@@ -97,7 +112,6 @@
           </div>
         </div>
       {% endblock local_graph %}
-
 
     </div>
     {% block content_footer %}
