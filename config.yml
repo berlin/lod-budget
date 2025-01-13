@@ -2,8 +2,7 @@
 
 base_url: 'https://berlin.github.io' # the base hostname & protocol for your site, e.g. http://example.com
 base_path: '/lod-budget' # the subpath of your site, e.g. /blog
-site_url: 'http://localhost:8000'
-dataset_path: 'data/all.nt'
+dataset_path: 'data/temp/all.nt'
 template_path: 'templates'
 output_path: '_site/'
 prefixes:
