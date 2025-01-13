@@ -1,0 +1,26 @@
+{% for s, p, o in statements %}
+    id{{ s }}([ ])
+    -->|{{ helper.prefix_label(p) }}|
+    {%- if o | is_resource -%}
+        {#- The object is a resource, render a clickable circle -#}
+        {%- if o | is_iri -%}
+            {{ o }}(["{{ helper.prefix_label(o) }}}"])
+            click {{ o }} "{{ o }}" "Link"
+        {%- else -%}
+            id{{ o }}([ ])
+            {%- set bnode_statements = o | statements_as_subject(as_list=true) -%}
+            {%- with statements=bnode_statements -%}
+                {%- include 'bnode_graph.html.jinja' -%}
+            {% endwith %}
+            {#- There is a fundamental issue with blank nodes, in that we cannot use them
+            as the subject in a graph pattern. That's because the BNode-Identifier is totally arbitrary.
+            So, unfortunately, we cannot recursively call this template, because we cannot construct 
+            a working query. Maybe there is another way...
+            TODO: That was true for RubyRDF, is it also true here?
+            -#}
+        {%- endif -%}
+    {%- else -%}
+        {#- The object is a literal, render a box. -#}
+        id{{ s }}_{{ loop.index }}["{{ helper.print_literal(o.replace('"', '#quot;')) }}"]
+    {%- endif %}
+{% endfor -%}

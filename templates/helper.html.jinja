@@ -1,0 +1,23 @@
+{% macro prefix_link(iri) -%}
+    <a href="{{ iri | relative_uri }}" title="{{iri}}" {% if not iri.startswith(resource_prefix) %} target="_blank"{% endif %}>{{ prefix_label(iri) }}</a>
+{%- endmacro %}
+
+{% macro prefix_label(iri) -%}
+    {% set ns = namespace(label=iri) %}
+    {%- for prefix,url in prefixes.items() -%}
+        {%- if url in iri -%}
+            {% set ns.label = prefix + ":" + iri.removeprefix(url) %}
+        {%- endif -%}
+    {%- endfor -%}
+    {{ ns.label }}
+{%- endmacro %}
+
+
+{% macro print_literal(literal) -%}
+    "{{ literal | truncate(150, true) }}"
+    {%- if literal.language -%}
+        @{{ literal.language }}
+    {%- elif literal.datatype -%}
+        ^^{{ prefix_link(literal.datatype) }}
+    {% endif %}
+{%- endmacro %}

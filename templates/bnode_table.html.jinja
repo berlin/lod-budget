@@ -1,0 +1,29 @@
+<table class="table table-striped align-middle table-sm">
+    <thead>
+        <tr>
+            <th>Predicate</th>
+            <th>Object</th>
+        </tr>
+    </thead>
+    <tbody class="table-group-divider">
+        {% for s, p, o in statements %}
+            <tr>
+                <td>{{ helper.prefix_link(p) }}</td>
+                <td>
+                    {% if o | is_iri %}
+                        {{ helper.prefix_link(o) }}
+                    {% elif o | is_bnode %}
+                        {% set bnode_statements = o | statements_as_subject(as_list=true) %}
+                        <div class="card">
+                            {% with statements=bnode_statements %}
+                                {% include 'bnode_table.html.jinja' %}
+                            {% endwith %}
+                        </div>
+                    {% else %}
+                        {{ helper.print_literal(o) }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,10 @@
+{% extends "base.html.jinja" %}
+
+{% set type_icon = 'circle' %}
+{% set local_name = node.split('/') | last %}
+{% set title = node | title_any(languages=['de'], default=local_name) %}
+
+{% block content%}
+<h2>This is the default template</h2>
+{{ node }}
+{% endblock content %}

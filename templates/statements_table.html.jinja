@@ -1,0 +1,58 @@
+<div class="table-responsive">
+  <table class="table table-striped align-middle table-sm">
+    <thead>
+      <tr>
+        <th>Subject</th>
+        <th>Predicate</th>
+        <th>Object</th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      {% for s, p, o in statements %}
+        <tr>
+          {# Subject #}
+          {% if focus == "subject" %}
+            {% if loop.first %}
+              <td rowspan="{{ statements | length }}">
+                <strong>{{ helper.prefix_link(s) }}</strong>
+              </td>
+            {% endif %}
+          {% else %}
+            <td>{{ helper.prefix_link(s) }}</td>
+          {% endif %}
+          {# Predicate #}
+          <td>{{ helper.prefix_link(p) }}</td>
+          {# Object #}
+          {% if o | is_resource %}
+            {% if focus == "object" %}
+              {% if loop.first %}
+                <td rowspan="{{ statements | length }}">
+                  <strong>{{ helper.prefix_link(o) }}</strong>
+                </td> 
+              {% endif %}
+            {% else %}
+              {% if o | is_iri %}
+                <td>
+                  {{ helper.prefix_link(o) }}
+                </td> 
+              {% else %} {# it's a bnode #}
+                {% set bnode_statements = o | statements_as_subject(as_list=true) %}
+                <td>
+                  <div class="card">
+                    {% with statements=bnode_statements %}
+                      {% include 'bnode_table.html.jinja' %}
+                    {% endwith %}
+                  </div>
+                </td> 
+              {% endif %}
+            {% endif %}
+          {% else %}
+            <td>
+              {{ helper.print_literal(o) }}
+            </td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

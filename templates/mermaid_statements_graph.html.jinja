@@ -1,0 +1,36 @@
+<script src="https://unpkg.com/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="{{ asset_path  + 'assets/js/mermaid_delayed_loader.js' }}"></script>
+<pre class="mermaid">
+    graph LR
+    click {{ node }} "{{ node }}" "Link"
+    {% for s, p, o in statements %}
+        {{ s }}(["{{ helper.prefix_label(s) }}"])
+        -->|{{ helper.prefix_label(p) }}|
+        {%- if  o | is_resource -%}
+            {#- The object is a resource, render a clickable circle -#}
+            {%- if o | is_iri -%}
+                {%- set iri_id = o -%}
+                {%- set mailto_parts = iri_id.split('mailto:') -%}
+                {%- if mailto_parts[0] == "" -%}
+                    {%- set iri_id = mailto_parts[1] -%}
+                    {%- set iri_id = iri_id.replace('@', '_AT_') -%}
+                {%- endif -%}
+                {{ iri_id }}(["{{ helper.prefix_label(o) }}"])
+                click {{ iri_id }} "{{ o }}" "Link"
+            {%- else -%}
+                id{{ o }}([ ])
+                {%- set bnode_statements = o | statements_as_subject(as_list=true) -%}
+                {%- with statements=bnode_statements -%}
+                    {%- include 'bnode_graph.html.jinja' -%}
+                {% endwith %}
+            {%- endif %}
+        {%- else -%}
+            {#- The object is a literal, render a box. -#}
+            id{{ loop.index }}["{{ helper.print_literal(o.replace('"', '#quot;')) }}"]
+        {%- endif %}
+        {% if s != node %}
+            click {{ s }} "{{ s }}" "Link"
+        {% endif %}
+    {%- endfor %}
+    style {{ node }} fill:#111,stroke:#333,stroke-width:4px,color:#eee
+</pre>

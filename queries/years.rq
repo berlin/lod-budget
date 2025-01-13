@@ -1,0 +1,9 @@
+PREFIX sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#>
+
+# which years are referenced in the data?
+
+SELECT DISTINCT ?year
+WHERE {
+    ?s sdmxdim:refPeriod ?year
+}
+ORDER BY ?year

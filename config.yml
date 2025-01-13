@@ -1,0 +1,32 @@
+# basic config
+
+base_url: 'https://berlin.github.io' # the base hostname & protocol for your site, e.g. http://example.com
+base_path: '/lod-budget' # the subpath of your site, e.g. /blog
+site_url: 'http://localhost:8000'
+# dataset_path: 'data/all.nt'
+dataset_path: 'data/temp/all.part.nt'
+template_path: 'templates'
+output_path: '_site/'
+prefixes:
+  cube: https://cube.link/
+  dct: http://purl.org/dc/terms/
+  foaf: http://xmlns.com/foaf/0.1/
+  hh: https://ld.example.com/bund/finanz/haushalt/
+  hhbe: https://berlin.github.io/lod-budget/
+  lodsg: https://berlinonline.github.io/lod-sg/
+  meta: https://cube.link/meta/
+  qudt: http://qudt.org/schema/qudt/
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  rdfs: http://www.w3.org/2000/01/rdf-schema#
+  schema: https://schema.org/
+  sdmxdim: http://purl.org/linked-data/sdmx/2009/dimension#
+  void: http://rdfs.org/ns/void#
+  xsd: http://www.w3.org/2001/XMLSchema#
+include:
+  - assets/
+
+# class_template_mappings:
+#   "void:Dataset": "dataset.html.jinja"
+#   "upper:Dog": "dog.html.jinja"
+#   "upper:Animal": "animal.html.jinja"
+#   "upper:Event": "event.html.jinja"

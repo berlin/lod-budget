@@ -1,0 +1,4 @@
+jinja2
+pyyaml
+rdflib
+jinja-rdf @ git+https://github.com/berlinonline/jinjardf@main

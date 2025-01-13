@@ -1,0 +1,40 @@
+@prefix cube: <https://cube.link/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix hhbe: <https://berlin.github.io/lod-budget/> .
+@prefix lodsg: <https://berlinonline.github.io/lod-sg/> .
+@prefix meta: <https://cube.link/meta/> .
+@prefix organigram: <https://berlin.github.io/lod-organigram/> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+
+hhbe:
+    a void:Dataset ;
+    dct:title "LOD-Haushalt"@de ;
+    dct:title "LOD-Budget"@en ;
+    dct:description """Haushaltsdaten des Bundeslandes Berlin als RDF / Linked Data."""@de ;
+    dct:description """Budgetary data for Berlin as RDF / Linked Open Data."""@en ;
+    dct:created "2024-10-17"^^xsd:date ;
+    dct:modified "2024-10-17"^^xsd:date ;
+    dct:publisher organigram:organisation-b185e3f70f ;
+    dct:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
+    foaf:homepage <https://github.com/berlin/lod-budget> ;
+    void:feature <http://www.w3.org/ns/formats/Turtle> ;
+    void:exampleResource hhbe:61b1c927-0774-5b8d-b3ec-4c1629b1fb2d ;
+    void:exampleResource hhbe:06cca832-d175-566b-8168-8602124fb4d6 ;
+    void:vocabulary sdmxdim: , cube: , meta: , qudt: ;
+    void:dataDump <https://raw.githubusercontent.com/berlin/lod-budget/refs/heads/main/data/haushalt-be.ttl> ;
+.
+
+hhbe:impressum
+    a lodsg:ImprintPage ;
+    schema:name "Impressum"@de ;
+    schema:name "Imprint"@en ;
+    schema:about hhbe: ;
+.
