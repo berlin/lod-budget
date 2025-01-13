@@ -5,10 +5,10 @@ generate+serve_locally:
 	python bin/generate.py --site_url http://localhost:8000 --serve
 
 data/temp/void.nt: void.ttl data/temp
-	rapper -i turtle $< > $@
+	rdfpipe -i turtle -o ntriples $< > $@
 
 data/temp/haushalt-be.nt: data/haushalt-be.ttl data/temp
-	rapper -i turtle $< > $@
+	rdfpipe -i turtle -o ntriples $< > $@
 
 # for testing purposes, only generate a small subset of the data:
 data/temp/haushalt-be.part.nt: data/temp/haushalt-be.nt
