@@ -2,6 +2,13 @@
 
 ## Development
 
+## [0.0.3](https://github.com/berlin/lod-budget/releases/tag/0.0.3)
+
+_(2025-01-14)_
+
+- Fix column width in info table.
+- Rename site builder workflow.
+
 ## [0.0.2](https://github.com/berlin/lod-budget/releases/tag/0.0.2)
 
 _(2025-01-14)_
