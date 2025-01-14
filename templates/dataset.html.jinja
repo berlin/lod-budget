@@ -39,7 +39,7 @@
   {% endif %}
 
   {% set publishers = node | rdf_property(DCT.publisher) %}
-  {% for publisher in publishers %}
+  {% for publisher in publishers | sort %}
     <tr>
       <td>Veröffentlichende Stelle:</td>
       <td>
@@ -71,55 +71,48 @@
     </tr>
   {% endif %}
 
+  {% set vocabs = node | rdf_property(VOID.vocabulary) %}
+  {% for vocab in vocabs | sort %}
+    <tr>
+      <td>Genutztes Vokabular:</td>
+      <td>
+        {{ helper.prefix_link(vocab)}}
+      </td>
+    </tr>
+  {% endfor %}
+
+  {% set versions = node | rdf_property(DCT.hasVersion) %}
+  {% for version in versions | sort %}
+    <tr>
+      <td>Andere Version:</td>
+      <td>{{ helper.prefix_link(version) }}</td>
+    </tr>
+  {% endfor %}
+
+  {% set data_dumps = node| rdf_property(VOID.dataDump) %}
+  {% for data_dump in data_dumps %}
+    <tr>
+      <td>Datensatz-Download:</td>
+      <td>
+        <a href="{{ data_dump }}">{{ data_dump }}</a>
+      </td>
+    </tr>
+  {% endfor %}
+
+  {% set licenses = node | rdf_property(DCT.license) %}
+  {% for license in licenses %}
+    <tr>
+      <td>Lizenz:</td>
+      <td>
+        <a href="{{ license }}">{{ license }}</a>
+      </td>
+    </tr>
+  {% endfor %}
 
 {% endblock info_table_content %}
 
               {# 
-              {%  capture vocabs_query %}
-                SELECT ?vocab
-                WHERE {
-                  ?resourceUri void:vocabulary ?vocab ;
-                } ORDER BY ?vocab
-              {% endcapture %}
-              {% assign vocabs = page.rdf | sparql_query: vocabs_query %}
-              {% if vocabs.size > 0 %}
-                {% for row in vocabs %}
-                  <tr>
-                    <td>Genutztes Vokabular:</td>
-                    <td>{% include core/prefix_url.html iri = row.vocab.iri %}</td>
-                  </tr>
-                {% endfor %}
-              {% endif %}
 
-              {% assign versions = page.rdf | rdf_property: "dct:hasVersion", nil, true %}
-              {% for version in versions %}
-                <tr>
-                  <td>Andere Version:</td>
-                  <td>{% include core/prefix_url.html iri = version.iri %}</td>
-                </tr>
-              {% endfor %}
-              {% assign data_dumps = page.rdf | rdf_property: "void:dataDump", nil, true %}
-              {% for data_dump in data_dumps %}
-                <tr>
-                  <td>Datensatz-Download:</td>
-                  <td>
-                    <a href="{{ data_dump }}">
-                      {{ data_dump }}
-                    </a>
-                  </td>
-                </tr>
-              {% endfor %}
-              {% assign licenses = page.rdf | rdf_property: "dct:license", nil, true %}
-              {% for license in licenses %}
-                <tr>
-                  <td>Lizenz:</td>
-                  <td>
-                    <a href="{{ license }}">
-                      {{ license }}
-                    </a>
-                  </td>
-                </tr>
-              {% endfor %}
               {%  capture sources_query %}
                 SELECT ?source
                 WHERE {
@@ -136,20 +129,4 @@
                     </tr>
                   {% endfor %}
                 {% endif %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="row local-graph">
-        <div class="col-12">
-          {% include core/local_graph.html %}
-        </div>
-      </div>
-    </div>
-    {% include core/content_footer.html %}
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-      crossorigin="anonymous"></script>
-  </body>
-</html> #}
+#}
