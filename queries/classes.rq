@@ -1,0 +1,23 @@
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX hh: <https://ld.example.com/bund/finanz/haushalt/>
+PREFIX hhbe: <https://berlin.github.io/lod-budget/>
+PREFIX sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#>
+PREFIX cube: <https://cube.link/>
+PREFIX meta: <https://cube.link/meta/>
+PREFIX qudt: <http://qudt.org/schema/qudt/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <https://schema.org/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+
+# which classes are being used in the data?
+
+SELECT ?class (COUNT(?resource) AS ?amount)
+WHERE {
+    ?resource a ?class .
+} 
+GROUP BY ?class
+ORDER BY DESC(?amount) ASC(?class)

@@ -1,9 +1,15 @@
 PREFIX sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#>
+PREFIX cube: <https://cube.link/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 # which years are referenced in the data?
 
-SELECT DISTINCT ?year
+SELECT DISTINCT ?year ?type (COUNT(?s) AS ?amount)
 WHERE {
-    ?s sdmxdim:refPeriod ?year
+    ?s
+        sdmxdim:refPeriod ?year ;
+        a ?type
+
 }
-ORDER BY ?year
+GROUP BY ?type ?year
+ORDER BY ?year ?type
