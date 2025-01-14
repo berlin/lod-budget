@@ -78,29 +78,29 @@
             {% block type_row %}
               {% set types = node | rdf_property(RDF.type) %}
               {% if types | length > 0 %}
-                          <tr>
-                            {% if types | length == 1 %}
-                              <td>Typ:</td>
-                            {% else %}
-                              <td>Typen:</td>
-                            {% endif %}
-                            <td>
-                              {% for type in types %}
-                                {{ helper.prefix_link(type) }}
-                                {% if not loop.last %},
-                                {% endif %}
-                              {% endfor %}
-                            </td>
-                          </tr>
+                <tr>
+                  {% if types | length == 1 %}
+                    <td>Typ:</td>
+                  {% else %}
+                    <td>Typen:</td>
+                  {% endif %}
+                  <td>
+                    {% for type in types %}
+                      {{ helper.prefix_link(type) }}
+                      {% if not loop.last %},
+                      {% endif %}
+                    {% endfor %}
+                  </td>
+                </tr>
               {% endif %}
             {% endblock type_row %}
-          {% endblock info_table_content%}
+          {% endblock info_table_content %}
           {% block info_table_footer %}
                   </tbody>
                 </table>
               </div>
             </div>
-          {% endblock info_table_footer%}
+          {% endblock info_table_footer %}
         {% endblock info_table %}
 
       {% endblock content %}
