@@ -7,6 +7,7 @@
 _(2025-01-14)_
 
 - Fix column width in info table.
+- Add example resources to dataset template.
 - Rename site builder workflow.
 
 ## [0.0.2](https://github.com/berlin/lod-budget/releases/tag/0.0.2)
