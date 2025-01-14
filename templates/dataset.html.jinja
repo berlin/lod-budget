@@ -63,6 +63,20 @@
     </tr>
   {% endif %}
 
+  {% set example_resources = node | rdf_property(VOID.exampleResource) %}
+  {% for resource in example_resources %}
+    <tr>
+      <td>Beispielressource:</td>
+      <td>
+        {{ helper.prefix_link(resource) }}
+        {% set resource_type = resource | rdf_property_any(RDF.type) %}
+        {% if resource_type %}
+          ({{ helper.prefix_link(resource_type) }})
+        {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+
   {% set root_resource = node | rdf_property_any(VOID.rootResource) %}
   {% if root_resource %}
     <tr>
