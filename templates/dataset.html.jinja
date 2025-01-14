@@ -19,7 +19,8 @@
 {% endblock breadcrumbs %}
 
 {% block info_table_content %}
-  {{ super }}
+
+  {{ super() }}
 
   {% set date_created = node | rdf_property_any(DCT.created) %}
   {% if date_created %}
@@ -71,7 +72,7 @@
   {% endif %}
 
 
-{% endblock info_table_content%}
+{% endblock info_table_content %}
 
               {# 
               {%  capture vocabs_query %}
