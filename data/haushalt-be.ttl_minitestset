@@ -1,0 +1,225 @@
+@prefix cube: <https://cube.link/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix hh: <https://ld.example.com/bund/finanz/haushalt/> .
+@prefix hhbe: <https://berlin.github.io/lod-budget/> .
+@prefix meta: <https://cube.link/meta/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix wd: <http://www.wikidata.org/entity/> .
+@prefix wdt: <http://www.wikidata.org/prop/direct/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+hh:ArtDerAngabe a rdfs:Class ;
+    schema:description "Ansatz/Soll/Ist."@de ;
+    schema:name "Art der Angabe"@de .
+
+hh:Ausgabetitel a rdfs:Class ;
+    owl:equivalentClass wd:Q760120 ;
+    schema:name "Ausgabetitel"@de .
+
+hh:Bereich a rdfs:Class ;
+    schema:description "Unterscheidung nach Berliner Landes- und Bezirksebene. Die Ziffer 30 steht für die Landesebene. Darunter fällt die Berliner Hauptverwaltung sowie die fünf weisungsfreien Verfassungsorgane (Abgeordnetenhaus, Verfassungsgerichtshof, Rechnungshof, Beauftragte/Beauftragter für Datenschutz und Informationsfreiheit, Bürger- und Polizeibeauftragte/Bürger- und Polizeibeauftragter des Landes Berlin). Die Ziffern 31 bis 42 umfassen die 12 Berliner Bezirksämter mit ihren Bezirksverwaltungen."@de ;
+    schema:name "Bereich"@de .
+
+hh:Einnahmetitel a rdfs:Class ;
+    owl:equivalentClass wd:Q350205 ;
+    schema:name "Einnahmetitel"@de .
+
+hh:Einzelplan a rdfs:Class,
+        meta:Hierarchy ;
+    sh:path [ sh:inversePath schema:isPartOf ] ;
+    meta:hierarchyRoot hh:Einzelplan ;
+    meta:nextInHierarchy hh:Kapitel ;
+    schema:description "In einem Einzelplan werden die Haushaltsmittel (Einnahmen, Ausgaben, Verpflichtungsermächtigungen, Planstellen und andere Stellen) veranschlagt."@de ;
+    schema:name "Einzelplan"@de .
+
+hh:Funktion a rdfs:Class ;
+    sh:path [ sh:inversePath schema:isPartOf ] ;
+    meta:nextInHierarchy hh:Titel ;
+    schema:description "Unterste Gliederungsebene des Funktionenplans. Sie entspricht einem Aufgabenbereich innerhalb einer öffentlichen Verwaltung."@de ;
+    schema:name "Funktion"@de .
+
+hh:Gruppe a rdfs:Class ;
+    sh:path [ sh:inversePath schema:isPartOf ] ;
+    meta:nextInHierarchy hh:Titel ;
+    schema:description "Unterste verbindliche Gliederungsebene des Gruppierungsplans."@de ;
+    schema:name "Gruppe"@de .
+
+hh:Hauptfunktion a rdfs:Class,
+        meta:Hierarchy ;
+    sh:path [ sh:inversePath schema:isPartOf ] ;
+    meta:hierarchyRoot hh:Hauptfunktion ;
+    meta:nextInHierarchy hh:Oberfunktion ;
+    schema:description "Oberste Gliederungsebene des Funktionenplans."@de ;
+    schema:name "Hauptfunktion"@de .
+
+hh:Hauptgruppe a rdfs:Class,
+        meta:Hierarchy ;
+    sh:path [ sh:inversePath schema:isPartOf ] ;
+    meta:hierarchyRoot hh:Hauptgruppe ;
+    meta:nextInHierarchy hh:Obergruppe ;
+    schema:description "Oberste Gliederungsebene des Gruppierungsplans."@de ;
+    schema:name "Hauptgruppe"@de .
+
+hh:Kapitel a rdfs:Class ;
+    sh:path [ sh:inversePath schema:isPartOf ] ;
+    meta:nextInHierarchy hh:Titel ;
+    schema:description "Gliederungsebene unterhalb der Einzelpläne, d.h. Einzelpläne sind in verschiedene Kapitel untergliedert. Die Kapitel untergliedern sich ihrerseits in die einzelnen Titel."@de ;
+    schema:name "Haushaltskapitel"@de,
+        "Kapitel"@de .
+
+hh:Oberfunktion a rdfs:Class ;
+    sh:path [ sh:inversePath schema:isPartOf ] ;
+    meta:nextInHierarchy hh:Funktion ;
+    schema:description "Mittlere Gliederungsebene des Funktionenplans."@de ;
+    schema:name "Oberfunktion"@de .
+
+hh:Obergruppe a rdfs:Class ;
+    sh:path [ sh:inversePath schema:isPartOf ] ;
+    meta:nextInHierarchy hh:Gruppe ;
+    schema:description "Mittlere Gliederungsebene des Gruppierungsplans."@de ;
+    schema:name "Obergruppe"@de .
+
+hh:Titel a rdfs:Class ;
+    schema:description "Unterste Gliederungsebene des Haushaltsplans. Die Eindeutigkeit eines Titels ist jedoch nur durch Verknüpfung mit Haushaltsjahr, Kapitel und - im Falle von Berlin - dem Bezirk gegeben."@de ;
+    schema:name "Haushaltstitel"@de,
+        "Titel"@de .
+
+hhbe:0000daec-7aad-5266-93ae-82805e8c43fd a cube:Observation ;
+    sdmx-dimension:refPeriod "2024"^^xsd:gYear ;
+    hh:betrag 4000 ;
+    hh:finanzplanung hh:Ansatz ;
+    hh:titel hhbe:4a83f879-7309-563f-9e8c-df8fe1a3d628 .
+
+hhbe:4a83f879-7309-563f-9e8c-df8fe1a3d628 a hh:Einnahmetitel,
+        hh:Titel ;
+    hh:nummer "28290" ;
+    schema:description "Sonstige zweckgebundene Einnahmen für konsumtive Zwecke"@de ;
+    schema:isPartOf hhbe:Bereich_BE_38,
+        hhbe:Kapitel_BE_4130,
+        hh:Funktion_311,
+        hh:Gruppe_282 .
+
+hhbe:Bereich_BE_38 a hh:Bereich ;
+    hh:nummer "38" ;
+    hh:vonBundesland wd:Q64 ;
+    schema:description "Neukölln"@de .
+
+hhbe:Kapitel_BE_4130 a hh:Kapitel ;
+    hh:nummer "4130" ;
+    schema:description "Qualitätsentwicklung, Planung und Koordination des öffentlichen Gesundheitsdienstes"@de ;
+    schema:isPartOf hhbe:EP_BE_41 .
+
+hhbe:EP_BE_41 a hh:Einzelplan ;
+    hh:nummer "41" ;
+    hh:vonBundesland wd:Q64 ;
+    schema:description "Gesundheitsamt"@de .
+
+hh:Funktion_311 a hh:Funktion ;
+    hh:nummer "311" ;
+    schema:description "Gesundheitsverwaltung"@de ;
+    schema:isPartOf hh:Oberfunktion_31 .
+
+hh:Oberfunktion_31 a hh:Oberfunktion ;
+    hh:nummer "31" ;
+    schema:description "Gesundheitswesen"@de ;
+    schema:isPartOf hh:Hauptfunktion_3 .
+
+hh:Hauptfunktion_3 a hh:Hauptfunktion ;
+    hh:nummer "3" ;
+    schema:description "Gesundheit, Umwelt, Sport und Erholung"@de .
+
+hh:Gruppe_282 a hh:Gruppe ;
+    hh:nummer "282" ;
+    schema:description "Sonstige Zuschüsse aus dem Inland"@de ;
+    schema:isPartOf hh:Obergruppe_28 .
+
+hh:Obergruppe_28 a hh:Obergruppe ;
+    hh:nummer "28" ;
+    schema:description "Sonstige Zuschüsse aus sonstigen Bereichen"@de ;
+    schema:isPartOf hh:Hauptgruppe_2 .
+
+hh:Hauptgruppe_2 a hh:Hauptgruppe ;
+    hh:nummer "2" ;
+    schema:description "Einnahmen aus Zuweisungen und Zuschüssen mit Ausnahme für Investitionen"@de .
+
+hhbe:00010dff-9a63-5a04-b0b9-2ca3dd511b0a a cube:Observation ;
+    sdmx-dimension:refPeriod "2022"^^xsd:gYear ;
+    hh:betrag 1000 ;
+    hh:finanzplanung hh:Ansatz ;
+    hh:titel hhbe:9fbafe9b-068d-5515-8687-58a5493619d7 .
+
+hhbe:9fbafe9b-068d-5515-8687-58a5493619d7 a hh:Einnahmetitel,
+        hh:Titel ;
+    hh:nummer "11979" ;
+    schema:description "Verschiedene Einnahmen"@de ;
+    schema:isPartOf hhbe:Bereich_BE_36,
+        hhbe:Kapitel_BE_3910,
+        hh:Funktion_285,
+        hh:Gruppe_119 .
+
+hhbe:00022dd9-84e8-5d60-a901-59fa797891b8 a cube:Observation ;
+    sdmx-dimension:refPeriod "2024"^^xsd:gYear ;
+    hh:betrag 1500 ;
+    hh:finanzplanung hh:Ansatz ;
+    hh:titel hhbe:6d8afcd3-b3b2-5d33-9cd4-71be8cba34f5 .
+
+hhbe:6d8afcd3-b3b2-5d33-9cd4-71be8cba34f5 a hh:Ausgabetitel,
+        hh:Titel ;
+    hh:nummer "52906" ;
+    schema:description "Repräsentation, Empfänge, Feierlichkeiten, Kontaktpflege"@de ;
+    schema:isPartOf hhbe:Bereich_BE_30,
+        hhbe:Kapitel_BE_0571,
+        hh:Funktion_043,
+        hh:Gruppe_529 .
+
+hhbe:00022e8a-32b5-5f8c-8fdc-ac26b74f8303 a cube:Observation ;
+    sdmx-dimension:refPeriod "2023"^^xsd:gYear ;
+    hh:betrag 1000 ;
+    hh:finanzplanung hh:Ansatz ;
+    hh:titel hhbe:0f5bfdc9-ed13-5e53-b27e-35d18e989283 .
+
+hhbe:0f5bfdc9-ed13-5e53-b27e-35d18e989283 a hh:Einnahmetitel,
+        hh:Titel ;
+    hh:nummer "11193" ;
+    schema:description "Ausgleichsabgabe nach dem Naturschutzrecht"@de ;
+    schema:isPartOf hhbe:Bereich_BE_33,
+        hhbe:Kapitel_BE_3810,
+        hh:Funktion_332,
+        hh:Gruppe_111 .
+
+hhbe:0003ee26-54aa-5c79-986a-b22cba6195d1 a cube:Observation ;
+    sdmx-dimension:refPeriod "2024"^^xsd:gYear ;
+    hh:betrag 1140000 ;
+    hh:finanzplanung hh:Ansatz ;
+    hh:titel hhbe:610e87af-08d1-5367-9fff-00e7b92b3ff3 .
+
+hhbe:610e87af-08d1-5367-9fff-00e7b92b3ff3 a hh:Ausgabetitel,
+        hh:Titel ;
+    hh:nummer "71504" ;
+    schema:description "Sanierung / Neubau Haus Europa, Schwarzspechtweg"@de ;
+    schema:isPartOf hhbe:Bereich_BE_32,
+        hhbe:Kapitel_BE_4011,
+        hh:Funktion_261,
+        hh:Gruppe_715 .
+
+hhbe:000401c6-c181-57ae-bd7b-864c0a4c366a a cube:Observation ;
+    sdmx-dimension:refPeriod "2025"^^xsd:gYear ;
+    hh:betrag 1000 ;
+    hh:finanzplanung hh:Ansatz ;
+    hh:titel hhbe:d1d8398d-83f5-5e82-a8f1-84c7b021e84e .
+
+hhbe:d1d8398d-83f5-5e82-a8f1-84c7b021e84e a hh:Einnahmetitel,
+        hh:Titel ;
+    hh:nummer "28122" ;
+    schema:description "Aufwendungsersatz und Kostenbeiträge bei Sozialleistungen"@de ;
+    schema:isPartOf hhbe:Bereich_BE_42,
+        hhbe:Kapitel_BE_4044,
+        hh:Funktion_281,
+        hh:Gruppe_281 .

@@ -57,15 +57,30 @@
       {% block content %}
 
         {% block description %}
-          {% set description_text = node | description_any(languages=['de'])%}
-          {% if description_text %}
+          {% set description_text = node | description_any(languages=['de']) %}
+          
+          {% set titelnummer_query = '''
+          PREFIX hh: <https://ld.example.com/bund/finanz/haushalt/>
+
+          SELECT ?nummer
+          WHERE {
+            ?resourceUri hh:nummer ?nummer.
+          }
+          ''' %}
+
+          {% set titelnummer_result = node | sparql_query(titelnummer_query) %}
+          
+          {% if description_text and titelnummer_result %}
             <div class="row">
               <div class="col-12">
-                <p>{{ description_text }}</p>
+                {% for result in titelnummer_result %}
+                  <p><strong>{{ description_text }} ({{ result['nummer'] }})</strong></p>
+                {% endfor %}
               </div>
             </div>
           {% endif %}
-        {% endblock description %}
+        {% endblock %}
+      
       
         {% block info_table %}
           {% block info_table_header %}
@@ -94,6 +109,74 @@
                 </tr>
               {% endif %}
             {% endblock type_row %}
+            {% block ispartof_row %}
+              {% set ispartof_text = node %}
+              {% if ispartof_text %}
+                {% set partof_values = ispartof_text | rdf_property(SCHEMA.isPartOf) %}
+                {% if partof_values %}
+                  <tr>
+                    <td>Gehört zu:</td>
+                    <td>
+                      {% for part in partof_values %}
+                        {{ helper.prefix_link(part) }}
+                        {% if not loop.last %},
+                        {% endif %}
+                      {% endfor %}
+                    </td>
+                  </tr>
+                {% endif %}
+              {% endif %}
+            {% endblock ispartof_row %}
+
+
+            {% block observation_link %}
+              {% set statements = node | statements_as_object(as_list=true) %}
+              {% if statements | length > 0 %}
+
+                {% for s, p, o in statements %}
+
+                  {% if 'https://ld.example.com/bund/finanz/haushalt/titel' in p %}
+                  <tr>
+                    <td>Weitere Eigenschaften: </td>
+                    <td>
+                      {{ helper.prefix_link(s) }}
+                    </td>
+                  {% endif %}                                  
+                {%- endfor %}
+                </tr>
+              {% endif %}
+            {% endblock observation_link %}
+
+            {% block betrag_row %}
+              {% set query = '''
+              PREFIX hh: <https://ld.example.com/bund/finanz/haushalt/>
+              PREFIX sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#>
+
+              SELECT ?refPeriod ?betrag ?finanzplanung
+              WHERE {
+                ?resourceUri sdmx-dimension:refPeriod ?refPeriod.
+                ?resourceUri hh:betrag ?betrag.
+                ?resourceUri hh:finanzplanung ?finanzplanung.
+                
+              }
+              ''' %}
+
+              {% set results = node | sparql_query(query) %}
+              {% if results %}
+                  <ul>
+                  {% for result in results %}
+                      <li>Haushaltsjahr: {{ result['refPeriod'] }}</li>
+                      {% set betrag = result['betrag'] | float %}
+                      <li>Absoluter Betrag: {{ '%.2f' | format(betrag) | replace('.', '#') | replace('#', ',') }} €</li>
+                      {% set hhplanung = result['finanzplanung'].split('/') | last %}
+                      <li>Haushaltsplanung: {{ hhplanung }}</li>
+                  {% endfor %}
+                  </ul>
+              {% endif %}
+            {% endblock betrag_row%}
+
+
+
           {% endblock info_table_content %}
           {% block info_table_footer %}
                   </tbody>
