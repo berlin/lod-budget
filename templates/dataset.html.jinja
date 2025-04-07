@@ -18,9 +18,22 @@
   </div>
 {% endblock breadcrumbs %}
 
+{% set data_description = node | rdf_property_any(DCT.description) %}
+{% if data_description %}
+  {{ data_description }}
+{% endif %}
+
 {% block info_table_content %}
 
   {{ super() }}
+
+  {% set data_description = node | rdf_property_any(DCT.description) %}
+  {% if data_description %}
+      <tr>
+        <td>Beschreibung:</td>
+        <td>{{ data_description }}</td>
+    </tr>
+  {% endif %}
 
   {% set date_created = node | rdf_property_any(DCT.created) %}
   {% if date_created %}
@@ -33,7 +46,7 @@
   {% set date_modified = node | rdf_property_any(DCT.modified) %}
   {% if date_modified %}
     <tr>
-      <td>zuerst geändert am:</td>
+      <td>zuletzt geändert am:</td>
       <td>{{ date_modified }}</td>
     </tr>
   {% endif %}
