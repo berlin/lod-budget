@@ -1,0 +1,40 @@
+@prefix hhbe: <https://berlin.github.io/lod-budget/> .
+@prefix hh: <https://ld.example.com/bund/finanz/haushalt/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix lor: <https://berlinonline.github.io/lod-berlin-lor/> .
+
+hhbe:Bereich_BE_31 a hh:Bereich ;
+    rdfs:seeAlso lor:bez_01 .
+
+hhbe:Bereich_BE_32 a hh:Bereich ;
+    rdfs:seeAlso lor:bez_02 .
+
+hhbe:Bereich_BE_33 a hh:Bereich ;
+    rdfs:seeAlso lor:bez_03 .
+
+hhbe:Bereich_BE_34 a hh:Bereich ;
+    rdfs:seeAlso lor:bez_04 .
+
+hhbe:Bereich_BE_35 a hh:Bereich ;
+    rdfs:seeAlso lor:bez_05 .
+
+hhbe:Bereich_BE_36 a hh:Bereich ;
+    rdfs:seeAlso lor:bez_06 .
+
+hhbe:Bereich_BE_37 a hh:Bereich ;
+    rdfs:seeAlso lor:bez_07 .
+
+hhbe:Bereich_BE_38 a hh:Bereich ;
+    rdfs:seeAlso lor:bez_08 .
+
+hhbe:Bereich_BE_39 a hh:Bereich ;
+    rdfs:seeAlso lor:bez_09 .
+
+hhbe:Bereich_BE_40 a hh:Bereich ;
+    rdfs:seeAlso lor:bez_10 .
+
+hhbe:Bereich_BE_41 a hh:Bereich ;
+    rdfs:seeAlso lor:bez_11 .
+
+hhbe:Bereich_BE_42 a hh:Bereich ;
+    rdfs:seeAlso lor:bez_12 .

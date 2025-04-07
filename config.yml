@@ -12,6 +12,7 @@ prefixes:
   hh: https://ld.example.com/bund/finanz/haushalt/
   hhbe: https://berlin.github.io/lod-budget/
   lodsg: https://berlinonline.github.io/lod-sg/
+  lor: https://berlinonline.github.io/lod-berlin-lor/
   meta: https://cube.link/meta/
   qudt: http://qudt.org/schema/qudt/
   rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
