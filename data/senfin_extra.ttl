@@ -1,0 +1,7 @@
+@prefix organigram: <https://berlin.github.io/lod-organigram/> .
+@prefix schema: <https://schema.org/> .
+
+# Zusätzliche Daten über SenFin, die im Impressum benötigt werden
+organigram:organisation-b185e3f70f
+    schema:taxID "DE269448547" ;
+.
