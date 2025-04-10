@@ -29,3 +29,4 @@ include:
   - assets/
 class_template_mappings:
   "void:Dataset": "dataset.html.jinja"
+  "lodsg:ImprintPage": "imprint.html.jinja"

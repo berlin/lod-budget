@@ -1,0 +1,85 @@
+{% extends "base.html.jinja" %}
+
+{% set type_icon = 'file-earmark-text' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        {#  Kontaktdaten #}
+        <div id="imprint_contact" class="imprint-block">
+            <h3>Herausgeber</h3>
+            {% set responsible_org_query = '''
+            SELECT ?name ?street ?postalCode ?locality
+            WHERE {
+                # the imprint is about something (the dataset), which has a publisher
+                ?resource_uri schema:about/dct:publisher ?org .
+                
+                ?org
+                    skos:prefLabel ?name ;
+                    org:hasSite/org:siteAddress ?address ;
+                .
+
+                ?address
+                    vcard:street-address ?street ;
+                    vcard:postal-code ?postalCode ;
+                    vcard:locality ?locality ;
+                .
+            }
+            '''%}
+            {% set results = node | sparql_query(responsible_org_query) %}
+            {% if results %}
+                {% for result in results %}
+                    {{ result['name'] }}<br/>
+                    {{ result['street'] }}<br/>
+                    {{ result['postalCode'] }} {{ result['locality'] }}<br/>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        {# Vertretungsberechtigt: #}
+        {% set senator_query = '''
+        SELECT ?name
+        WHERE {
+            ?resource_uri schema:about/dct:publisher ?org .
+
+            ?org org:hasPost ?post .
+            ?post org:role berorgs:SenatorIn .
+            ?senator 
+                org:holds ?post ;
+                rdfs:label ?name ;
+            .
+        }
+        '''%}
+        {% set results = node | sparql_query(senator_query) %}
+        {% if results %}
+            <div id="imprint_senator" class="imprint-block">
+                {% for result in results %}
+                    <h3>Vertretungsberechtigt</h3>
+                    Finanzsenator {{ result['name'] }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {# UStId #}
+        {% set ustid_query = '''
+        SELECT ?ustid
+        WHERE {
+            ?resource_uri schema:about/dct:publisher ?org .
+
+            ?org schema:taxID ?ustid ;
+            .
+        }
+        '''%}
+        {% set results = node | sparql_query(ustid_query) %}
+        {% if results %}
+            <div id="imprint_senator" class="imprint-block">
+                {% for result in results %}
+                    <h3>Umsatzsteuer-Identifikationsnummer</h3>
+                    USt-IdNr.:  {{ result['ustid'] }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock content %}
