@@ -6,6 +6,7 @@ dataset_path: 'data/temp/all.nt'
 template_path: 'templates'
 output_path: '_site/'
 prefixes:
+  berorgs: https://berlin.github.io/lod-vocabulary/berorgs/
   cube: https://cube.link/
   dct: http://purl.org/dc/terms/
   foaf: http://xmlns.com/foaf/0.1/
@@ -14,11 +15,14 @@ prefixes:
   lodsg: https://berlinonline.github.io/lod-sg/
   lor: https://berlinonline.github.io/lod-berlin-lor/
   meta: https://cube.link/meta/
+  org: http://www.w3.org/ns/org#
   qudt: http://qudt.org/schema/qudt/
   rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   rdfs: http://www.w3.org/2000/01/rdf-schema#
   schema: https://schema.org/
   sdmxdim: http://purl.org/linked-data/sdmx/2009/dimension#
+  skos: http://www.w3.org/2004/02/skos/core#
+  vcard: http://www.w3.org/2006/vcard/ns#
   void: http://rdfs.org/ns/void#
   xsd: http://www.w3.org/2001/XMLSchema#
 include:
