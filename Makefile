@@ -20,7 +20,7 @@ data/temp/senfin_extra.nt: data/senfin_extra.ttl
 
 # for testing purposes, only generate a small subset of the data:
 data/temp/haushalt-be.part.nt: data/temp/haushalt-be.nt
-	head -n 50000 $< > $@
+	head -n 5000 $< > $@
 
 data/temp/senfin.ttl: data/temp
 	curl -o $@ "$(senfin_org_url)"
