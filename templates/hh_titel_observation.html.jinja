@@ -13,7 +13,7 @@ WHERE {
 {% set year_amount_query = '''
 SELECT ?refPeriod ?betrag ?finanzplanung
 WHERE {
-?resourceUri sdmx-dimension:refPeriod ?refPeriod.
+?resourceUri sdmxdim:refPeriod ?refPeriod.
 ?resourceUri hh:betrag ?betrag.
 ?resourceUri hh:finanzplanung ?finanzplanung.
 
