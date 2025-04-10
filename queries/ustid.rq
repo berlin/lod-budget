@@ -1,0 +1,9 @@
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX schema: <https://schema.org/>
+
+SELECT ?ustid
+WHERE {
+    ?resource_uri schema:about/dct:publisher ?org .
+
+    ?org schema:taxID ?ustid .
+}
