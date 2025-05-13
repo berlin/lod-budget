@@ -2,66 +2,91 @@
 
 {% set type_icon = 'file-earmark-text' %}
 
+{% set responsible_org_query = '''
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+
+SELECT ?name ?street ?postalCode ?locality
+WHERE {
+    # the imprint is about something (the dataset), which has a publisher
+    ?resource_uri schema:about/dct:publisher ?org .
+    
+    ?org
+        skos:prefLabel ?name ;
+        org:hasSite/org:siteAddress ?address ;
+    .
+
+    ?address
+        vcard:street-address ?street ;
+        vcard:postal-code ?postalCode ;
+        vcard:locality ?locality ;
+    .
+}
+'''%}
+{% set results = node | sparql_query(responsible_org_query) %}
+{% set contact_data = [] %}
+{% if results %}
+    {% for result in results %}
+        {% set _ = contact_data.append({
+            'name': result['name'],
+            'street': result['street'],
+            'postalCode': result['postalCode'],
+            'locality': result['locality']
+        }) %}
+    {% endfor %}
+{% endif %}
+
+
+
 {% block content %}
 <div class="row">
     <div class="col-12">
         {#  Kontaktdaten #}
         <div id="imprint_contact" class="imprint-block">
             <h3>Herausgeber</h3>
-            {% set responsible_org_query = '''
-            SELECT ?name ?street ?postalCode ?locality
-            WHERE {
-                # the imprint is about something (the dataset), which has a publisher
-                ?resource_uri schema:about/dct:publisher ?org .
-                
-                ?org
-                    skos:prefLabel ?name ;
-                    org:hasSite/org:siteAddress ?address ;
-                .
-
-                ?address
-                    vcard:street-address ?street ;
-                    vcard:postal-code ?postalCode ;
-                    vcard:locality ?locality ;
-                .
-            }
-            '''%}
-            {% set results = node | sparql_query(responsible_org_query) %}
-            {% if results %}
-                {% for result in results %}
-                    {{ result['name'] }}<br/>
-                    {{ result['street'] }}<br/>
-                    {{ result['postalCode'] }} {{ result['locality'] }}<br/>
+            {% if contact_data %}
+                {% for org in contact_data %}
+                    {{ org.name }}<br/>
+                    {{ org.street }}<br/>
+                    {{ org.postalCode }} {{ org.locality }}<br/>
                 {% endfor %}
             {% endif %}
         </div>
 
         {# Vertretungsberechtigt: #}
-        {% set senator_query = '''
-        SELECT ?name
-        WHERE {
-            ?resource_uri schema:about/dct:publisher ?org .
+        {% set abtl_zs_query = '''
+        PREFIX dct: <http://purl.org/dc/terms/>
+        PREFIX berorgs: <https://berlin.github.io/lod-vocabulary/berorgs/>
+        PREFIX organigram: <https://berlin.github.io/lod-organigram/>
+        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
-            ?org org:hasPost ?post .
-            ?post org:role berorgs:SenatorIn .
-            ?senator 
+        SELECT ?post ?name ?abtl ?unitLabel ?unitPurpose
+        WHERE {
+            BIND(organigram:organisation-aabace653a AS ?abtl)
+            ?abtl org:hasPost ?post ;
+                skos:prefLabel ?unitLabel ;
+                org:purpose ?unitPurpose .
+            ?post org:role berorgs:Abteilungsleitung .
+            ?abtl_zs 
                 org:holds ?post ;
-                rdfs:label ?name ;
-            .
+                rdfs:label ?name .
         }
         '''%}
-        {% set results = node | sparql_query(senator_query) %}
+        {% set results = node | sparql_query(abtl_zs_query) %}
         {% if results %}
-            <div id="imprint_senator" class="imprint-block">
+            <div id="imprint_abtl" class="imprint-block">
                 {% for result in results %}
                     <h3>Vertretungsberechtigt</h3>
-                    Finanzsenator {{ result['name'] }}
+                    {{ result['name'] }}</br> 
+                    Leitung {{ result['unitLabel'] }} – {{ result['unitPurpose'] }}
                 {% endfor %}
             </div>
         {% endif %}
 
         {# UStId #}
         {% set ustid_query = '''
+        PREFIX dct: <http://purl.org/dc/terms/>
+
         SELECT ?ustid
         WHERE {
             ?resource_uri schema:about/dct:publisher ?org .
@@ -72,13 +97,88 @@
         '''%}
         {% set results = node | sparql_query(ustid_query) %}
         {% if results %}
-            <div id="imprint_senator" class="imprint-block">
+            <div id="imprint_ustid" class="imprint-block">
                 {% for result in results %}
                     <h3>Umsatzsteuer-Identifikationsnummer</h3>
                     USt-IdNr.:  {{ result['ustid'] }}
                 {% endfor %}
             </div>
         {% endif %}
+
+        <div id="imprint_verantw" class="imprint-block">
+            <h3>Inhaltlich verantwortlich</h3>
+            Team Open Data<br/>
+            Mobil: +49 151 292 769 62<br/>
+            E-Mail: <a href="mailto:opendata@senfin.berlin.de">opendata@senfin.berlin.de</a>
+        </div>
+
+        <div id="imprint_techbetr" class="imprint-block">
+            <h3>Technischer Betrieb</h3>
+            GitHub, Inc.<br/>
+            github.com
+        </div>
+
+        {% set ref_zs_b_query = '''
+        PREFIX organigram: <https://berlin.github.io/lod-organigram/>
+
+        SELECT ?purpose ?label
+        WHERE {
+            organigram:organisation-0ea5a94582
+                org:purpose ?purpose ;
+                skos:prefLabel ?label .
+        }
+        '''%}
+        {% set results = node | sparql_query(ref_zs_b_query) %}
+        {% if results %}
+            {% set ref_data = [] %}
+            {% for result in results %}
+                {% set _ = ref_data.append({
+                    'label': result['label'],
+                    'purpose': result['purpose']
+                }) %}
+            {% endfor %}
+        {% endif %}
+
+
+
+        <div id="imprint_gestaltung" class="imprint-block">
+            <h3>Gestaltung</h3>
+            {% if contact_data %}
+                {% for org in contact_data %}
+                    {{ org.name }}<br/>
+                    {% if ref_data %}
+                        {% for ref in ref_data %}
+                            {{ ref.label }} – {{ ref.purpose }}<br/>
+                        {% endfor %}
+                    {% endif %}
+                    {{ org.street }}<br/>
+                    {{ org.postalCode }} {{ org.locality }}<br/>
+                {% endfor %}
+            {% endif %}
+            <br/>
+            Mobil: +49 151 292 769 62<br/>
+            E-Mail: <a href="mailto:opendata@senfin.berlin.de">opendata@senfin.berlin.de</a>
+        </div>
+
+
+        <div id="imprint_umsetzung" class="imprint-block">
+            <h3>Technische Umsetzung</h3>
+            {% if contact_data %}
+                {% for org in contact_data %}
+                    {{ org.name }}<br/>
+                    {% if ref_data %}
+                        {% for ref in ref_data %}
+                            {{ ref.label }} – {{ ref.purpose }}<br/>
+                        {% endfor %}
+                    {% endif %}
+                    {{ org.street }}<br/>
+                    {{ org.postalCode }} {{ org.locality }}<br/>
+                {% endfor %}
+            {% endif %}
+            <br/>
+            Mobil: +49 151 292 769 62<br/>
+            E-Mail: <a href="mailto:opendata@senfin.berlin.de">opendata@senfin.berlin.de</a>
+        </div>
 
     </div>
 </div>

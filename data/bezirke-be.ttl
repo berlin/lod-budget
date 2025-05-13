@@ -1,5 +1,5 @@
 @prefix hhbe: <https://berlin.github.io/lod-budget/> .
-@prefix hh: <https://ld.example.com/bund/finanz/haushalt/> .
+@prefix hh: <https://okfde.github.io/lod-budget-vocab/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix lor: <https://berlinonline.github.io/lod-berlin-lor/> .
 

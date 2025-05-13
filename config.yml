@@ -10,7 +10,7 @@ prefixes:
   cube: https://cube.link/
   dct: http://purl.org/dc/terms/
   foaf: http://xmlns.com/foaf/0.1/
-  hh: https://ld.example.com/bund/finanz/haushalt/
+  hh: https://okfde.github.io/lod-budget-vocab/
   hhbe: https://berlin.github.io/lod-budget/
   lodsg: https://berlinonline.github.io/lod-sg/
   lor: https://berlinonline.github.io/lod-berlin-lor/

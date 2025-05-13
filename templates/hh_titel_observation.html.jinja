@@ -1,6 +1,8 @@
 {% extends "base.html.jinja" %}
 {% set description_text = node | description_any(languages=['de']) %}
 {% set titelnummer_query = '''
+PREFIX hh: <https://ld.example.com/bund/finanz/haushalt/>
+
 SELECT ?nummer
 WHERE {
 ?resourceUri hh:nummer ?nummer.
@@ -11,6 +13,9 @@ WHERE {
 {% set statements = node | statements_as_object(as_list=true) %}
 
 {% set year_amount_query = '''
+PREFIX hh: <https://ld.example.com/bund/finanz/haushalt/>
+PREFIX sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#>
+
 SELECT ?refPeriod ?betrag ?finanzplanung
 WHERE {
 ?resourceUri sdmxdim:refPeriod ?refPeriod.
