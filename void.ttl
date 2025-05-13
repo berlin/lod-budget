@@ -22,7 +22,7 @@ hhbe:
     dct:description """Haushaltsdaten des Bundeslandes Berlin als RDF / Linked Open Data."""@de ;
     dct:description """Budgetary data for Berlin as RDF / Linked Open Data."""@en ;
     dct:created "2024-10-17"^^xsd:date ;
-    dct:modified "2025-04-07"^^xsd:date ;
+    dct:modified "2025-05-13"^^xsd:date ;
     dct:publisher organigram:organisation-b185e3f70f ;
     dct:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
     foaf:homepage <https://github.com/berlin/lod-budget> ;
