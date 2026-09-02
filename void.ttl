@@ -13,6 +13,7 @@
 @prefix sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#> .
 @prefix void: <http://rdfs.org/ns/void#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix obs: <https://berlin.github.io/lod-budget/> .
 
 
 hhbe:
@@ -22,17 +23,17 @@ hhbe:
     dct:description """Haushaltsdaten des Bundeslandes Berlin als RDF / Linked Open Data."""@de ;
     dct:description """Budgetary data for Berlin as RDF / Linked Open Data."""@en ;
     dct:created "2024-10-17"^^xsd:date ;
-    dct:modified "2025-05-13"^^xsd:date ;
+    dct:modified "2026-09-01"^^xsd:date ;
     dct:publisher organigram:organisation-b185e3f70f ;
     dct:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
     foaf:homepage <https://github.com/berlin/lod-budget> ;
     void:feature <http://www.w3.org/ns/formats/Turtle> ;
     void:exampleResource hhbe:6d3eeee8-2066-506e-a73a-4d23c0f759a2 ;
-    void:exampleResource hhbe:047106de-d059-54c7-b8ae-a2b132d4f1c8 ;
+    void:exampleResource obs:226ff99a-ec96-54ba-9325-900f5dbb5a17 ;
     void:exampleResource hhbe:e1c72463-dd22-5f4e-9119-89f43c83af74 ;
-    void:exampleResource hhbe:dd19576c-00df-53f6-9721-ab8c0dc0227a ;
+    void:exampleResource obs:9297da7e-ee1e-5680-b38a-535abb5082fb ;
     void:exampleResource hhbe:2d61d0af-86a4-5458-8af5-8946d94e75dd ;
-    void:exampleResource hhbe:979e4bb7-0518-5a87-9693-d01f44c29099 ;
+    void:exampleResource obs:c0da952c-0098-5b95-a5df-2a891992c2f7 ;
 
     void:vocabulary sdmxdim: , cube: , meta: , qudt: ; 
     void:dataDump <https://raw.githubusercontent.com/berlin/lod-budget/refs/heads/main/data/haushalt-be.ttl> ;
