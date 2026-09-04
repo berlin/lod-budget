@@ -91,4 +91,4 @@ The published website is available at:
 
 ## License
 
-All code in this repository is published under the [MIT License](License). All data are published under [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
+All code in this repository is published under the [MIT License](LICENSE). All data are published under [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
